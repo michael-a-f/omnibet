@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OmniBet</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="icon" href="../static/images/icon.png">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <img src="../static/images/icon.png" id='nav-image'>
+        <a class="navbar-brand" href="#">OmniBet</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            
+            <li class="nav-item">
+              <a class="nav-link" href="#motivations">Motivations for Project</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#how-it-works">How It Works</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#looking-ahead">Looking Ahead</a>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                See API Data
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/api/odds/nba" target="_blank">NBA</a>
+                <a class="dropdown-item" href="/api/odds/mlb" target="_blank">MLB</a>
+                <a class="dropdown-item" href="/api/odds/nhl" target="_blank">NHL</a>
+                <a class="dropdown-item" href="/api/odds/" target="_blank">See all odds</a>
+                
+              </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="https://github.com/" target="_blank">GitHub</a>
+              </li>
+
+          </ul>
+        </div>
+      </nav>
+
+    <div class="container">
+      <div class="search-logos jumbotron mt-4 mb-4">
+        <div id="search-logos-header">
+          <h4 id='teams-search-message'></h4>
+          <button id='refresh-odds'>Refresh Odds</button>
+
+        </div>
+        <div id='sport-cards'>
+          <div id='arb-filter'>
+            <form id='filter-form'>
+              <h3 class='mb-3'>Show Me...</h3>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" id="show-all" name='arb-options' checked>
+                <label class="form-check-label" for="show-all">
+                  All Games
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" id="show-arbs-only" name='arb-options'>
+                <label class="form-check-label" for="show-arbs-only">
+                  Only Games with an arbitrage opportunity
+                </label>
+              </div>
+              
+          </form>
+          </div>
+          
+          <div class="sport-search-card" id='mlb'>
+            <div>
+              <img class="search-sport" src="../static/images/mlb.png" id='mlb-img' alt="MLB">
+            </div>
+            
+            <div class="caption-body">
+              <p class="caption-text">MLB</p>
+            </div>
+          </div>
+  
+          <div class="sport-search-card" id='nba'>
+            <div>
+              <img class="search-sport" src="../static/images/nba-logo.png" id='nba-img' alt="NBA">
+            </div>
+            
+            <div class="caption-body">
+              <p class="caption-text">NBA</p>
+            </div>
+          </div>
+  
+          <div class="sport-search-card" id='nhl'>
+            <div><img class="search-sport" src="../static/images/nhl.png" id='nhl-img'alt="NHL"></div>
+            
+            <div class="caption-body">
+              <p class="caption-text">NHL</p>
+            </div>
+          </div>
+
+        </div>
+        
+    </div>
+    <div class="jumbotron matchup-card-results">
+      <div id="search-matchup-cards">
+        <form class="form-inline" id='matchup-search'>
+          <input class="form-control" id='search-matchups' type="search" placeholder="Search by team city..." aria-label="Search" autocomplete ='off'>
+        </form>
+      </div>
+      
+
+      <div id="matchup-cards-container">
+
+      </div>
+    </div>
+    <div class='results'></div>
+      
+
+        
+
+        <!-- The Modal that pops out when you click on a matchup -->
+        <div class="modal fade bd-example-modal-lg" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-centered modal-dialog-scrollable modal-xl">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" id='modal-close-button'>&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" id="body-of-modal">
+                    <table class="table" id="modal-table">
+                        <thead class="thead-dark">
+                            <tr id='modal-table-head'>
+                                
+                            </tr>
+                        </thead>
+                        <tbody id="modal-table-body">
+                            
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <h3 id='total-bet-amount'>Total Bet Amount: $50.00</h3>
+                    <div id='modal-footer-buttons'>
+                        <button type="button" class="btn btn-primary" id='arb-btn'>Show Arbitrage Opportunity</button>
+                        <button type="button" class="btn btn-primary" id='checkout'>Place Bets</button>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        
+    
+
+        <!-- Content here -->
+        <div class='results'></div>
+        
+        <div class="card mb-5" id="motivations">
+            <h5 class="card-header">Motivations for Project</h5>
+            <div class="card-body">
+                <p class="card-text mb-4">
+                  This project is equal parts learning driven and passion driven for me.  I wanted to get hands on experience with vanilla JavaScript, 
+                  asynchronous programming, DOM manipulation, HTTP requests, and APIs before jumping into React or Angular.  And at the same time, I wanted
+                  to explore the intricacies of the rapidly expanding online sports gambling market, as I knew that there had to be a way to systematically "beat the odds" and make risk free money.
+                  <br><br>The piece of advice that I've heard the most regarding portfolio projects is to create things that you are truly interested in, so I combined my ambitions to improve my Full Stack Development skills with my interests in sports, markets, and problem solving to do just that. 
+                  I hope you enjoy looking through this half as much as I enjoyed creating it for you!
+                </p>
+                
+            </div>
+        </div>
+
+        <div class="card mb-5" id="how-it-works">
+          <h5 class="card-header">How It Works</h5>
+          <div class="card-body">
+
+              <h5 class="card-title">What is arbitrage?</h5>
+              <p class="card-text mb-4">
+                The main idea behind OmniBet is arbitrage.  Arbitrage is defined as 'the simultaneous 
+                buying and selling of securities, currency, or commodities in different markets or in 
+                derivative forms in order to take advantage of differing prices for the same asset'.  In the 
+                case of sports gambling, I define arbitrage as being able to place a combination of bets on a game such that
+                you make money regardless of which teams wins i.e. risk free!
+              </p>
+
+              <h5 class="card-title">So when is arbitrage possible?</h5>
+              <p class="card-text mb-4">Opportunities for arbitrage arise when there
+                are many different markets for the same product, and each
+                market is setting prices differently.  These 
+                conditions are met perfectly with the boom of online sports
+                gambling! Each site/sportsbook sets their odds using their own blend of proprietary tools, methods, and datasets, which at times can lead to games having significantly different odds across all sportsbooks.
+              </p>
+
+              <h5 class="card-title">The math behind it all</h5>
+              <p class="card-text mb-4">For a match between team T&#8321 and team T&#8322, place bet B&#8321 on T&#8321 at odds&#8321 from sportsbook 1, and another bet B&#8322 on T&#8322 at odds&#8322 from sportsbook 2.</p>
+              <p class="card-text mb-4">The winnings on a bet B = B*MM, where MM is the 'Money Multiplier', or the factor by which your bet is multiplied by if it wins, and can be calculated as a function of the odds on that bet.<br>Each team will have odds of + or - an integer, like +200, -540, etc.<br>
+                If the odds are positive, MM = (100 + odds) / 100<br>If the odds are negative, MM = (100 + |odds|) / |odds|</p>
+              
+              
+              <p class="card-text mb-4">So, on T&#8321 win:<br>Net profit = B&#8321*MM&#8321 - B&#8321 - B&#8322 (The amount you profit = the amount you win from the winning bet - the amount of the winning bet - the amount of the losing bet)</p>
+              
+              <p class="card-text mb-4">On T&#8322 win:<br>Net profit = B&#8322*MM&#8322 - B&#8322 - B&#8321</p>
+              <p class="card-text mb-4">Arbitrage means that regardless of the match outcome there is a positive net profit, i.e. the sum of these net profits is also > 0, so...<br>B&#8321*MM&#8321 - B&#8321 - B&#8322 + B&#8322*MM&#8322 - B&#8322 - B&#8321 > 0</p>
+              <p class="card-text mb-4">Factoring out B&#8321 and B&#8322 and combining like terms...<br>B&#8321(MM&#8321 - 2) + B&#8322(MM&#8322 - 2) > 0</p>
+              <p class="card-text mb-4">Now, replacing x for B&#8321, and y for B&#8322 and isolating for y leaves us a clearer linear equation...<br>y > -(MM&#8321 - 2)/(MM&#8322 - 2) x</p>
+              <p class="card-text mb-4">Keeping in mind that MM&#8321 and MM&#8322 are constants calculated using the odds for their respective team, we can mathematically define an arbitrage opportunity as a matchup where there exists a bet x to be placed on odds from sportsbook 1, and a bet y to be placed on odds from sportsbook 2 which satisfy...<br>i.) y > -(MM&#8321 - 2)/(MM&#8322 - 2) x<br>ii.) y > 0<br>iii.) x > 0 (both bets must be positive and non-zero).</p>
+
+              
+              
+              
+
+              
+
+              <h5 class="card-title">So how does this program help?</h5>
+              <p class="card-text mb-4">I constructed an API which when requested, scrapes MLB, NBA, and NHL odds data from Oddsshark.com, calculates any arbitrage opportunities, and returns the data for all matchups in JSON.
+                The client requests this API, stringifies the response into local storage, and from there it is parsed, instantiated into necessary objects, and displayed according to user-selected filters.   
+                <br><br>The two types of arbitrages that I focus on here are...<br>1.) The combination of bets which generates the least varying profit, meaning that you profit a similar amount regardless of which team wins.<br>2.) The combination of bets which leads to the greatest potential profit, meaning that if team 1 wins, you might only profit $1 but if team 2 wins, you would profit a very large amount-- sometimes hundreds of dollars without any risk.</p> 
+                <p class="card-text mb-4">From a product perspective, these two options seem to make the most sense.  A user might want to lock in a relatively fixed, guaranteed profit, or they might prefer playing the scenario where they either profit a very small or very large amount.  This still creates the 'skin-in-the-game' feeling of gambling, but it is over how much you will win, not over if you will win at all!</p>
+            
+          </div>
+      </div>
+
+        <div class="card mb-5" id="looking-ahead">
+            <h5 class="card-header">Looking Ahead</h5>
+            <div class="card-body">
+                <p class="card-text mb-4">
+                  As legislation surrounding sports gambling continues to ease, and as more
+                  sportsbooks enter the marketplace, I think there is a very high probability 
+                  that we will see public APIs from companies like FanDuel, DraftKings, Penn Gaming, etc.
+                  When this happens, a program like OmniBet becomes extremely useful in spotting and capitalizing on 
+                  market inefficiences in real-time, as well as aggregating all odds across the market in a single location.  Prospective gamblers likely don't care too much
+                  about where they place a bet, but rather that they can easily find and place the bets that offer the best payouts.
+                  <br><br>
+                  I also see the process of online market-making continuing to fluorish.  Much like Citadel and other High Frequency Trading firms in the financial markets industry, or StockX in the consumer apparel industry, a program like OmniBet
+                  could greatly increase the speed and efficiency in which a gambler can place a bet, all while systematically profiting off of the orders being placed through it.   
+                  <br><br>
+                  In terms of continued learning, I am using the experience from this project to better guide me while diving into React and/or Angular.
+                  Frameworks will continue to change, so I want to keep building a strong foundation of the core JS fundamentals which will not change as much-- ES6 syntax, Promises/Async, higher order array methods, destructuring/spread operators, etc.
+                  Coming from a background in Python and Java, using Node.js here was a fantastic way to get comfortable with JS syntax while completing the back-end functionality, before even touching the client side code.
+                </p>
+
+
+            
+            </div>
+        </div>
+    </div>
+
+
+    
+    
+    <script type="text/javascript" src="./templates/index.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
